@@ -1,0 +1,73 @@
+openapi: 3.0.3
+info:
+  title: Online Store API
+  version: 1.0.0
+paths:
+  /products:
+    get:
+      summary: List all products
+      operationId: getProducts
+      responses:
+        '200':
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExtendedProduct'
+    post:
+      summary: Create a product item
+      operationId: createProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: Product item created
+        '400':
+          description: Invalid input
+
+  /products/{productId}:
+    get:
+      summary: Get a single product by ID
+      operationId: getProductById
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A single product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtendedProduct'
+        '404':
+          description: Product not found
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        description:
+          type: string
+    ExtendedProduct:
+      allOf:
+        - $ref: '#/components/schemas/Product'
+        - type: object
+          properties:
+            id:
+              type: string
+            inStock:
+              type: boolean
