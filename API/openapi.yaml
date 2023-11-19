@@ -15,7 +15,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ExtendedProduct'
+                  $ref: '#/components/schemas/Product'
     post:
       summary: Create a product item
       operationId: createProduct
@@ -24,7 +24,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Product'
+              $ref: '#/components/schemas/BaseProduct'
       responses:
         '201':
           description: Product item created
@@ -47,13 +47,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExtendedProduct'
+                $ref: '#/components/schemas/Product'
         '404':
           description: Product not found
 
 components:
   schemas:
-    Product:
+    BaseProduct:
       type: object
       properties:
         name:
@@ -62,9 +62,9 @@ components:
           type: number
         description:
           type: string
-    ExtendedProduct:
+    Product:
       allOf:
-        - $ref: '#/components/schemas/Product'
+        - $ref: '#/components/schemas/BaseProduct'
         - type: object
           properties:
             id:
